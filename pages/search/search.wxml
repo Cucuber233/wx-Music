@@ -1,0 +1,272 @@
+<wxs src="../../utils/util.wxs" module="util"></wxs>
+<import src="../../template/loading/loading.wxml" />
+<view class="main">
+    <!-- 搜索部分 -->
+    <view class="search_title">
+        <view class="search_wrap">
+            <form bindsubmit="searhFinput">
+                <view class="search">
+                    <!-- input -->
+                    <view class="form_input">
+                        <view>
+                            <!-- <icon type="search" size="16" color="#aaa" /> -->
+                            <view class="iconfont icon-sousuo" style="color:#aaa;line-height: 40rpx;font-size:35rpx;"></view>
+                        </view>
+                        <input type="text" auto-focus maxlength="20" name="name" bindinput="inputext" bindblur="routeSearchResPage" placeholder="搜索单曲、歌手、专辑等" value="{{searchKey}}" focus="{{true}}" />
+                        <view class="sf_clear" hidden="{{!searchKey}}" bindtap="clear_kw">
+                            <!-- <icon type="clear" size="16" color="#aaa" /> -->
+                            <view class="iconfont icon-menu_reject2Submitor" style="color:#aaa;line-height: 40rpx;font-size:35rpx;"></view>
+                        </view>
+                    </view>
+                    <!-- 按钮 -->
+                    <view class="button">
+                        <button form-type="submit" plain="true">搜索</button>
+                    </view>
+                </view>
+            </form>
+        </view>
+    </view>
+    <!-- 历史及热搜 -->
+    <view class="content_tag" wx:if="{{showView}}">
+        <!-- 历史记录 -->
+        <view class="history_wrap">
+            <view class="history_title_wrap">
+                <view class="history_title">
+                    <text>历史记录</text>
+                </view>
+                <view class="history_icon">
+                    <view bindtap="deleHistory" class="iconfont icon-lajitong" style="font-size:40rpx;color:#b3adad"></view>
+                </view>
+            </view>
+            <!-- 历史列表 -->
+            <view class="history_item">
+                <scroll-view class="nav" scroll-x>
+                    <view class="nav_item" wx:for="{{history}}" wx:key="{{index}}" data-key="{{item}}" bindtap="chooseKey">
+                        {{item}}
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <!-- 热搜榜 -->
+        <view class="hot_wrap">
+            <view class="history_title_wrap">
+                <view class="history_title">
+                    <text>热搜榜</text>
+                </view>
+            </view>
+            <!-- 热搜item -->
+            <view class="hot_content" wx:for="{{searchHotDetail}}" wx:key="{{index}}" data-key="{{item.searchWord}}" bindtap="chooseKey">
+                <!-- 排行 -->
+                <view class="hot_content_left">
+                    <text class="ranking{{index<3?'_active':''}}">{{index+1}}</text>
+                </view>
+                <!-- 内容 -->
+                <view class="hot_content_right">
+                    <!-- 上 -->
+                    <view class="hot_content_title">
+                        <view class="hot_content_name">
+                            <text>{{item.searchWord}}</text>
+                        </view>
+                        <view class="hot_content_count">
+                            <text>{{item.score}}</text>
+                        </view>
+                        <view class="hot_content_icon">
+                            <image class="content_icon{{item.iconType}}" mode="widthFix" src="{{item.iconUrl}}" />
+                        </view>
+                    </view>
+                    <!-- 下 -->
+                    <view class="hot_content_desc">{{item.content}}</view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 搜索建议 -->
+    <view class="suggest" wx:if="{{showSuggest}}">
+        <view class="suggest_item" wx:for="{{searchsuggest}}" wx:key="{{index}}" data-key="{{item.keyword}}" bindtap="chooseKey">
+            <text class="suggest_item_key">{{item.keyword}}</text>
+        </view>
+    </view>
+    <!-- 搜索结果 -->
+    <view class="searchAll" wx:if="{{showResult}}">
+        <view class="search_result_wrap">
+            <view class="searchResult">
+                <scroll-view class="searchResult_scroll" scroll-x scroll-left="{{scroll_left}}">
+                    <view bindtap="activeNav" data-id="{{item.id}}" data-current="{{index}}" class="search_result_item{{currentTab===index?'_active':''}}" wx:for="{{searchType}}" wx:key="{{index}}">
+                        {{item.name}}
+                    </view>
+                </scroll-view>
+            </view>
+        </view>
+        <!-- 搜索结果 -->
+        <view class="search_content_wrap">
+            <swiper class="swiper" current="{{currentTab}}" duration="200" bindchange="swiperChange">
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{singleloading}}" is="loading" />
+                        <!-- 单曲处理开始 -->
+                        <view class="songArray_wrap" wx:for="{{singleList}}" wx:key="{{index}}">
+                            <view class="songArray_inex">{{index+1}}</view>
+                            <view class="songArray_content" bindtap="playMusic" data-id="{{item.id}}" data-index="{{index}}">
+                                <view class="content_1">{{item.name}}</view>
+                                <view class="content_3">{{item.ar[0].name}}-{{item.al.name}}</view>
+                            </view>
+                            <!-- MV图标处理 -->
+                            <view class='songArray_mv'>
+                                <view wx:if="{{item.mvid!==0}}">
+                                    <view id="songArray_mv" class="iconfont icon-Youtube" bindtap="playMv" data-id="{{item.mvid}}"></view>
+                                </view>
+                                <view wx:else>
+                                    <view id="songArray_mv" class="iconfont icon-Youtube" style="color:white;"></view>
+                                </view>
+                            </view>
+                            <view id="songArray_other" class="iconfont icon-caidan2" style="color:#CCCCCC;"></view>
+                        </view>
+                        <!-- 单曲处理结束 -->
+                        <template wx:if="{{singleloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{videoloading}}" is="loading" />
+                        <!-- 视频处理开始 -->
+                        <view class="relatedAllvideo" wx:for="{{videoList}}" wx:key="{{index}}" bindtap="openMv" data-id="{{item.vid}}" data-type="{{item.type}}">
+                            <view class="relatedAllvideo_img">
+                                <image mode="aspectFill" src="{{item.coverUrl}}" />
+                                <view class="relatedAllvideo_playCount">
+                                    <text class="iconfont icon-play" style="font-size:30rpx;"></text>
+                                    <text>{{util.formatPlayCount(item.playTime)}}</text>
+                                </view>
+                            </view>
+                            <view class="relatedAllvideo_desc">
+                                <view class="relatedAllvideo_desc_title">
+                                    <text id="mv" wx:if="{{item.type==0}}" class="iconfont icon-MV" style="font-size:40rpx;color:red"></text>
+                                    <text>{{item.title}}</text>
+                                </view>
+                                <view class="relatedAllvideo_desc_creator">
+                                    {{util.formatTime(item.durationms)}}
+                                    <text wx:if="{{item.type==1}}">by</text>
+                                    <text decode="true">&nbsp;{{item.creator[0].userName}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <!-- 视频处理结束 -->
+                        <template wx:if="{{videoloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{artistsloading}}" is="loading" />
+                        <!-- 歌手处理开始 -->
+                        <view class="artists_wrap" wx:for="{{artistsList}}" wx:key="{{index}}">
+                            <view class="touxiang">
+                                <image src='{{item.img1v1Url}}'></image>
+                            </view>
+                            <view class="mingzi">
+                                <text>{{item.name}}</text>
+                            </view>
+                        </view>
+                        <!-- 歌手处理结束 -->
+                        <template wx:if="{{artistsloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{albumsloading}}" is="loading" />
+                        <!-- 专辑处理开始 -->
+                        <view class="album_wrap" wx:for="{{albumsList}}" wx:key="{{index}}">
+                            <view class="album_pic">
+                                <image src='{{item.picUrl}}'></image>
+                            </view>
+                            <view class="album_desc">
+                                <view class=" album_name">
+                                    <text>{{item.name}}</text>
+                                    <!-- 此处格式化有样式问题,干脆不要 -->
+                                    <!-- <text class="album_alias" decode="true">{{item.alias[0]==null?"":'&nbsp;('+item.alias[0]+')'}}</text> -->
+                                </view>
+                                <view class="album_artists">
+                                    <text>{{item.artist.name}} {{item.publishTime}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <!-- 专辑处理结束 -->
+                        <template wx:if="{{albumsloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{playlistsloading}}" is="loading" />
+                        <!-- 歌单处理开始 -->
+                        <view class="playlists_wrap" wx:for="{{playlistsList}}" wx:key="{{index}}" data-id="{{item.id}}" bindtap="openSongSheet">
+                            <view class="playlists_pic">
+                                <image src='{{item.coverImgUrl}}'></image>
+                            </view>
+                            <view class="playlists_desc">
+                                <view class=" playlists_name">
+                                    <text>{{item.name}}</text>
+                                </view>
+                                <view class="playlists_artists">
+                                    <text decode="true">
+                                        {{item.trackCount}}首&nbsp;by&nbsp;{{item.creator.nickname}}，播放{{util.formatPlayCount(item.playCount)}}次
+                                    </text>
+                                </view>
+                            </view>
+                        </view>
+                        <!-- 歌单处理结束 -->
+                        <template wx:if="{{playlistsloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{djRadiosloading}}" is="loading" />
+                        <!-- 电台处理开始 -->
+                        <view class="djRadios_wrap" wx:for="{{djRadiosList}}" wx:key="{{index}}">
+                            <view class="djRadios_pic">
+                                <image src='{{item.picUrl}}'></image>
+                            </view>
+                            <view class="djRadios_desc">
+                                <view class=" djRadios_name">
+                                    <text>{{item.name}}</text>
+                                </view>
+                                <view class="djRadios_artists">
+                                    <text decode="true">{{item.dj.nickname}}</text>
+                                </view>
+                            </view>
+                        </view>
+                        <!-- 电台处理结束 -->
+                        <template wx:if="{{djRadiosloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+                <swiper-item class="swiper-item">
+                    <scroll-view scroll-y="{{true}}" bindscrolltolower="loadMore" style='height:100%'>
+                        <template wx:if="{{userprofilesloading}}" is="loading" />
+                        <!-- 用户处理开始 -->
+                        <view class="userprofiles_wrap" wx:for="{{userprofilesList}}" wx:key="{{index}}">
+                            <view class="userprofiles_touxiang">
+                                <image src='{{item.avatarUrl}}'></image>
+                            </view>
+                            <view class="userprofiles_desc">
+                                <view class="userprofiles_desc_wrap">
+                                    <view class="nickname">
+                                        <text>{{item.nickname}}</text>
+                                    </view>
+                                    <view class="userprofiles_gender">
+                                        <view wx:if="{{item.gender==1}}" class="iconfont icon-nan" style="color:#6699FF;line-height: 50rpx;font-size:35rpx;"></view>
+                                        <view wx:if="{{item.gender==2}}" class="iconfont icon-nv" style="color:#FF6699;line-height: 50rpx;font-size:30rpx;"></view>
+                                    </view>
+                                </view>
+                                <view class="signature">
+                                    <text>{{item.signature}}</text>
+                                </view>
+                            </view>
+                            <view class="userprofiles_follow">
+                                <text>+关注</text>
+                            </view>
+                        </view>
+                        <!-- 用户处理结束 -->
+                        <template wx:if="{{userprofilesloadingmore}}" is="loading" />
+                    </scroll-view>
+                </swiper-item>
+            </swiper>
+        </view>
+    </view>
+</view>

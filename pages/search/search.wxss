@@ -1,0 +1,627 @@
+@import "../../template/loading/loading.wxss";
+.search_title {
+    animation: searchTop .5s ease-in-out;
+    width: 100%;
+    position: fixed;
+    margin-top: 0;
+    z-index: 100;
+    top: 0;
+    /* box-shadow: 0px 2px 1px rgba(0, 0, 0, .2); */
+}
+
+.search_wrap {
+    padding: 0 0 20rpx 20rpx;
+    height: 60rpx;
+    background-color: #33CC99;
+    overflow: hidden;
+    flex: 0 0 60rpx;
+    color: #fff;
+}
+
+.search_wrap .search {
+    display: flex;
+}
+
+.form_input {
+    flex: 1;
+    position: relative;
+    height: 60rpx;
+    overflow: hidden;
+    border-radius: 25rpx;
+}
+
+.form_input view {
+    position: absolute;
+    top: 0;
+    z-index: 10;
+    left: 0;
+    padding: 12rpx 15rpx;
+}
+
+.form_input .sf_clear {
+    right: 0;
+    left: auto;
+    margin-right: 30rpx;
+}
+
+.form_input input {
+    border: none;
+    color: #515151;
+    background-color: #ececec;
+    border-radius: 4rpx;
+    font-size: 28rpx;
+    padding: 0 60rpx;
+    box-sizing: border-box;
+    height: 60rpx;
+    line-height: 60rpx;
+    display: block;
+}
+
+.button button {
+    padding: 0 20rpx;
+    height: 60rpx;
+    border: none;
+    line-height: 60rpx;
+    display: block;
+    text-align: right;
+    font-size: 30rpx;
+    color: #fff;
+}
+
+/* 主体标签 */
+
+.content_tag {
+    margin-top: 120rpx;
+}
+
+.history_title_wrap {
+    display: flex;
+    justify-content: space-between;
+    /* border: 1rpx solid red; */
+    align-items: center;
+    margin-top: 40rpx;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+}
+
+.history_title {
+    /* margin-left: 40rpx; */
+    /* margin-top: 40rpx; */
+    flex: 1;
+}
+
+.history_title text {
+    font-size: 35rpx;
+    font-weight: 600;
+}
+
+/* 历史 */
+
+.nav {
+    white-space: nowrap;
+    margin-top: 40rpx;
+    margin-left: 20rpx;
+    /* border: 1rpx solid red; */
+    height: 100rpx;
+    line-height: 50rpx;
+    width: 98%;
+}
+
+.nav_item {
+    padding: 20rpx 30rpx;
+    margin: 0rpx 15rpx;
+    font-size: 30rpx;
+    height: 40rpx;
+    line-height: 40rpx;
+    display: inline-block;
+    background-color: #f1eeee;
+    border-radius: 40rpx;
+}
+
+::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    color: transparent;
+}
+
+.hot_wrap {
+    margin-top: 80rpx;
+}
+
+.hot_content {
+    display: flex;
+    /* border: 1rpx solid red; */
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 60rpx;
+}
+
+.hot_content_left {
+    width: 10%;
+    padding-left: 45rpx;
+}
+
+.ranking {
+    color: black;
+    font-size: 40rpx;
+}
+
+.ranking_active {
+    color: red;
+    font-size: 40rpx;
+}
+
+.hot_content_right {
+    width: 80%;
+}
+
+.hot_content_title {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.hot_content_name {
+    font-size: 35rpx;
+    font-weight: 600;
+}
+
+.hot_content_count {
+    padding: 0rpx 20rpx;
+    color: #b3adad;
+    font-size: 30rpx;
+}
+
+.content_icon0, .content_icon1, .content_icon2 {
+    width: 60rpx;
+    height: 30rpx;
+}
+
+.content_icon5 {
+    width: 35rpx;
+    height: 20rpx;
+}
+
+.hot_content_desc {
+    color: #b3adad;
+    margin-top: 10rpx;
+    font-size: 30rpx;
+}
+
+.suggest {
+    animation: searchTop .5s ease-in-out;
+    width: 75%;
+    position: fixed;
+    z-index: 100;
+    left: 70rpx;
+    top: 61rpx;
+    background-color: white;
+    box-shadow: 0px 2px 1px rgba(0, 0, 0, .3);
+}
+
+.suggest_item {
+    padding: 20rpx;
+    border-bottom: 1rpx solid #d4d0d0;
+}
+
+.suggest_item_key {
+    font-size: 30rpx;
+    color: #969393;
+}
+
+.search_result_wrap {
+    border-bottom: 1px solid #e2dcdc;
+    margin-top: 78rpx;
+    /* animation: searchTop .5s ease-in-out;
+    position: fixed;
+    z-index: 100;
+    background-color: white; */
+}
+
+.searchResult {
+    /* white-space: nowrap;
+    line-height: 50rpx;
+    width: 98%; */
+}
+
+.searchResult_scroll {
+    height: 100rpx;
+    width: 750rpx;
+    overflow: scroll;
+    white-space: nowrap;
+}
+
+.search_result_item {
+    width: 150rpx;
+    height: 100rpx;
+    /* padding: 20rpx 45rpx; */
+    font-size: 30rpx;
+    display: inline-block;
+    /* border: 1px solid red; */
+    text-align: center;
+    line-height: 100rpx;
+}
+
+.search_result_item_active {
+    width: 150rpx;
+    height: 100rpx;
+    text-align: center;
+    line-height: 100rpx;
+    /* padding: 20rpx 45rpx; */
+    font-size: 30rpx;
+    display: inline-block;
+    color: #33CC99;
+    /* border: 1px solid red; */
+    border-bottom: 2px solid #33CC99;
+}
+
+/* swiper处理 */
+
+swiper {
+    width: 100%;
+    /* height: 100vh; */
+    height: calc(100vh - 168.5rpx);
+    /* height: calc(100vh - 168.5rpx); */
+    padding: 0;
+}
+
+swiper-item {
+    /* line-height: 350px; */
+    /* overflow: scroll; */
+    overflow: auto;
+}
+
+swiper-item::-webkit-scrollbar {
+    display: none;
+}
+
+/* 分类型处理，单曲 */
+
+.songArray_wrap {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20rpx 0;
+}
+
+.songArray_inex {
+    padding-left: 40rpx;
+    color: #ccc;
+    line-height: 70rpx;
+    width: 10%;
+}
+
+.songArray_content {
+    width: 65%;
+}
+
+.content_1 {
+    font-size: 32rpx;
+    /* 超过省略号 */
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.songArray_content .content_3 {
+    font-size: 25rpx;
+    color: rgb(190, 189, 189);
+    margin-top: 10rpx;
+    /* 超过省略号 */
+    text-overflow: -o-ellipsis-lastline;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.songArray_mv {
+    width: 10%;
+}
+
+#songArray_mv {
+    width: 10%;
+    line-height: 70rpx;
+}
+
+#songArray_other {
+    width: 10%;
+    line-height: 70rpx;
+}
+
+/* 分类型处理，视频 */
+
+.relatedAllvideo {
+    margin-top: 30rpx;
+    /* border: 1px solid #cccccc; */
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-left: 40rpx;
+    margin-right: 40rpx;
+}
+
+.relatedAllvideo_img {
+    position: relative;
+}
+
+.relatedAllvideo_img image {
+    width: 280rpx;
+    height: 160rpx;
+    border-radius: 5%;
+}
+
+.relatedAllvideo_playCount {
+    position: absolute;
+    top: 5rpx;
+    right: 5rpx;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    color: #fff;
+    font-size: 24rpx;
+}
+
+.relatedAllvideo_desc {
+    width: 55%;
+    margin-left: 20rpx;
+    /* margin-right: 20rpx; */
+    line-height: 40rpx;
+    /* border: 1px solid #cccccc; */
+}
+
+.relatedAllvideo_desc_title {
+    font-size: 30rpx;
+    /* 两行省略 */
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+#mv {
+    /* display: block; */
+    margin-right: 10rpx;
+}
+
+.relatedAllvideo_desc_creator {
+    font-size: 25rpx;
+    color: #a3a0a0;
+    text-align: justify;
+    margin-top: 10rpx;
+}
+
+/* 歌手 */
+
+.artists_wrap {
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 40rpx;
+    margin-left: 40rpx;
+}
+
+.touxiang {
+    width: 20%;
+}
+
+.touxiang image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.mingzi {
+    width: 80%;
+    padding-bottom: 30rpx;
+}
+
+.mingzi text {
+    font-size: 30rpx;
+}
+
+/* 专辑 */
+
+.album_wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 40rpx;
+    margin-left: 40rpx;
+}
+
+.album_pic image {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 10rpx;
+}
+
+.album_desc {
+    margin-left: 40rpx;
+}
+
+.album_name {
+    /* 一行省略 */
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.album_name text {
+    font-size: 35rpx;
+    /* line-height: 60rpx; */
+}
+
+.album_alias {
+    color: rgb(175, 171, 171);
+}
+
+.album_artists text {
+    font-size: 28rpx;
+}
+
+/* 歌单 */
+
+.playlists_wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 5rpx;
+    margin-left: 40rpx;
+}
+
+.playlists_pic image {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 10rpx;
+}
+
+.playlists_desc {
+    margin-left: 25rpx;
+}
+
+.playlists_name {
+    /* 一行省略 */
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.playlists_name text {
+    font-size: 30rpx;
+}
+
+.playlists_artists {
+    line-height: 18rpx;
+    margin-bottom: 30rpx;
+}
+
+.playlists_artists text {
+    font-size: 28rpx;
+    color: #b3adad;
+}
+
+/* 电台 */
+
+.djRadios_wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 20rpx;
+    margin-left: 40rpx;
+}
+
+.djRadios_pic image {
+    width: 120rpx;
+    height: 120rpx;
+    border-radius: 10rpx;
+}
+
+.djRadios_desc {
+    margin-left: 25rpx;
+}
+
+.djRadios_name {
+    /* 一行省略 */
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.djRadios_name text {
+    font-size: 30rpx;
+}
+
+.djRadios_artists text {
+    font-size: 28rpx;
+    color: #b3adad;
+}
+
+/* 用户 */
+
+.userprofiles_wrap {
+    display: flex;
+    /* flex-direction: row; */
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 40rpx;
+    margin-left: 40rpx;
+}
+
+.userprofiles_touxiang {
+    width: 20%;
+}
+
+.userprofiles_touxiang image {
+    width: 100rpx;
+    height: 100rpx;
+    border-radius: 50%;
+}
+
+.userprofiles_desc {
+    width: 55%;
+}
+
+.userprofiles_desc_wrap {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.userprofiles_gender {
+    margin-left: 10rpx;
+    padding-bottom: 10rpx;
+}
+
+.nickname {
+    font-size: 33rpx;
+    margin-bottom: 10rpx;
+}
+
+.signature {
+    font-size: 25rpx;
+    color: rgb(141, 139, 139);
+    /* 一行省略 */
+    display: -webkit-box;
+    overflow: hidden;
+    white-space: normal;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.userprofiles_follow {
+    width: 120rpx;
+    height: 50rpx;
+    border: 1rpx solid red;
+    border-radius: 50rpx;
+    text-align: center;
+    line-height: 45rpx;
+}
+
+.userprofiles_follow text {
+    font-size: 30rpx;
+    color: red;
+}

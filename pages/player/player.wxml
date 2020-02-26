@@ -1,0 +1,117 @@
+<view class="main">
+    <!-- 背景处理 -->
+    <view class='song-bg' style='background-image: url("//music.163.com/api/img/blur/{{music.al.pic_str || music.al.pic}}"); opacity: 1'></view>
+    <!-- 播放器 -->
+    <view>
+        <view class='player' hidden='{{showLyric}}' bindtap="playerChange">
+            <view class='player-pointer'>
+                <image class='{{ playing ? "playing" : "" }}' src='../../images/cm2_play_needle_play-ip6@2x.png' />
+            </view>
+            <view class='player-disc {{ playing ? "running" : "paused" }}'>
+                <view class='song-disc'>
+                    <image src='../../images/disc.png' mode='widthFix' />
+                </view>
+                <view class='song-cover'>
+                    <image class='default-cover' src='../../images/cm2_default_cover_play-ip6@2x.jpg' mode='widthFix' hidden='{{music.al.picUrl}}' />
+                    <image src='{{music.al.picUrl}}'></image>
+                </view>
+                <view class='song-light'>
+                    <image src='../../images/disc_light-ip6.png' mode='widthFix' />
+                </view>
+            </view>
+        </view>
+        <view class='lyric' hidden='{{!showLyric}}' bindtap="playerChange">
+            <view class='lyric-cont'>
+                <view class='lyric-list' style='transform: translateY(-{{curLrcIndex*75}}rpx)'>
+                    <block wx:for="{{lyricsList.lrc}}" wx:key="{{index}}">
+                        <view class='{{curLrcIndex == index ? "current" : ""}}' style='{{index == curLrcIndex - 6 || index == curLrcIndex - (-6) ? " opacity: 0.2;" : ""}}'>
+                            {{item.lrc}}
+                        </view>
+                    </block>
+                    <view style='margin-top: 30rpx' wx:if="{{lyricsUser.nickname}}">
+                        歌词贡献者:{{lyricsUser.nickname}}
+                    </view>
+                </view>
+            </view>
+        </view>
+    </view>
+    <!-- 菜单栏 -->
+    <view class='operation'>
+        <view class='song-actions' hidden='{{showLyric}}'>
+            <view class='action-item'>
+                <image src='../../images/cm2_play_icn_love@2x.png' />
+            </view>
+            <view class='action-item'>
+                <image src='../../images/cm2_play_icn_dld@2x.png' />
+            </view>
+            <navigator class='action-item' url='../comment/comment?id={{music.id}}+&type=1'>
+                <image src='../../images/cm2_play_icn_cmt_num@2x.png' />
+                <text>{{totalCountComments > 999 ? '999+': totalCountComments}}</text>
+            </navigator>
+            <view class='action-item'>
+                <image src='../../images/cm2_play_icn_more@2x.png' />
+            </view>
+        </view>
+        <!-- slider -->
+        <view class='song-progress'>
+            <text class='cur-time'>{{currentTime}}</text>
+            <slider style='width: 100%;' value="{{sliderValue}}" min="0" max="{{sliderMax}}" block-size="12" activeColor="#d33a31" backgroundColor="rgba(255, 255, 255, 0.2)" block-color="#fff" bindchange="sliderChange" bindtouchstart='sliderMoveStart' bindtouchmove='sliderMoveEnd' />
+            <text class='total-time'>{{duration}}</text>
+        </view>
+        <!-- 按钮 -->
+        <view class='play-bar'>
+            <block wx:for="{{modeList}}" wx:key="{{index}}">
+                <image src="{{item.icon}}" mode='widthFix' style='width: 88rpx' hidden="{{playMode !== item.id}}" bindtap='modeChange' />
+            </block>
+            <image src='../../images/cm2_play_btn_prev@2x.png' mode='widthFix' style='width: 98rpx' id='-1' bindtap='playMusicChange' />
+            <image src='../../images/cm2_fm_btn_play@2x.png' mode='widthFix' style='width: 136rpx' hidden='{{playing}}' bindtap='playStatusChange' />
+            <image src='../../images/cm2_fm_btn_pause@2x.png' mode='widthFix' style='width: 136rpx' hidden='{{!playing}}' bindtap='playStatusChange' />
+            <image src='../../images/cm2_fm_btn_next@2x.png' mode='widthFix' style='width: 98rpx' id='1' bindtap='playMusicChange' />
+            <image src='../../images/cm2_icn_list@2x.png' mode='widthFix' style='width: 88rpx' bindtap='showPlayList' />
+        </view>
+    </view>
+    <!-- 播放列表 -->
+    <drawer height="{{740}}" id="drawer" bind:cancel="_cancelDrawer" bind:confirm="_confirmDrawer">
+        <view class='play-list-container'>
+            <view class='pl-action-panel'>
+                <view bindtap='modeChange' class='panel-mode'>
+                    <image src="{{modeList[playMode-1].icon2}}" mode='widthFix' style='width: 36rpx' />
+                    <text>{{modeList[playMode-1].name}} ({{curPlayList.length}})</text>
+                </view>
+                <view style='margin-right: 40rpx;'>
+                    <image src="../../images/cm2_playlist_icn_fav@2x.png" mode='widthFix' style='width: 36rpx' />
+                    收藏全部
+                </view>
+                <view bindtap='deleteAll'>
+                    <image src="../../images/cm2_playlist_icn_delete@2x.png" mode='widthFix' style='width: 36rpx' />
+                </view>
+            </view>
+            <view class='pl-content'>
+                <scroll-view scroll-y="true">
+                    <block wx:for="{{curPlayList}}" wx:key="{{index}}">
+                        <view class="pl-item {{item.id === music.id ? 'current' : ''}}" id="{{item.id}}" data-index="{{index}}" bindtap='selectedMusic'>
+                            <view wx:if="{{item.id === music.id}}" class='song-volume'>
+                                <image src="../../images/cm2_icn_volume@2x.png" mode='widthFix' />
+                            </view>
+                            <view class='song-info'>
+                                <view class='ellipsis'>
+                                    <text class='songname'>
+                                        {{item.name}}{{item.alia.length ? '('+item.alia[0] +')' : ''}}
+                                    </text>
+                                    <text class='singer'>- {{item.ar[0].name}}</text>
+                                </view>
+                            </view>
+                            <view wx:if="{{item.id === music.id}}" class='song-link'>
+                                <image src="../../images/cm2_playlist_icn_link@2x.png" mode='widthFix' />
+                            </view>
+                            <view class='song-del' catchtap='delMusicByIndex' data-index="{{index}}">
+                                <image src="../../images/cm2_playlist_icn_dlt@2x.png" mode='widthFix' />
+                            </view>
+                        </view>
+                    </block>
+                </scroll-view>
+            </view>
+            <view class='pl-close' bindtap='_cancelDrawer'>关闭</view>
+        </view>
+    </drawer>
+</view>
